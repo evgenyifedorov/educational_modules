@@ -24,19 +24,14 @@ class EduModelViewSet(viewsets.ModelViewSet):
         course.save()
 
     def get_queryset(self):
+        """
+        Return a queryset of EduModel objects for the current user,
+        or all EduModel objects if the user is a moderator.
+        """
         if IsModerator().has_permission(self.request, self):
             return EduModel.objects.all()
         else:
             return EduModel.objects.filter(owner=self.request.user)
-
-    def get_permissions(self):
-        if self.action in ["update", "partial_update", "list", "retrieve"]:
-            self.permission_classes = [IsAuthenticated, IsModerator | IsOwner]
-        if self.action == "create":
-            self.permission_classes = [IsAuthenticated, ~IsModerator]
-        if self.action == "destroy":
-            self.permission_classes = [IsAuthenticated, ~IsModerator | IsOwner]
-        return super().get_permissions()
 
 
 class LessonCreateAPIView(CreateAPIView):
@@ -64,6 +59,10 @@ class LessonListAPIView(ListAPIView):
     pagination_class = EduModelPagination
 
     def get_queryset(self):
+        """
+        Return a queryset of Lesson objects for the current user,
+        or all Lesson objects if the user is a moderator.
+        """
         if IsModerator().has_permission(self.request, self):
             return Lesson.objects.all()
         else:

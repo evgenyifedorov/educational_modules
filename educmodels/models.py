@@ -6,6 +6,9 @@ NULLABLE = {"blank": True, "null": True}
 
 
 class EduModel(models.Model):
+    """
+    Модель обучения.
+    """
     number = models.IntegerField(unique=True, db_index=True, verbose_name='Номер модели')
     name = models.CharField(max_length=30, unique=True, db_index=True, verbose_name='Название модели')
     description = models.TextField(verbose_name='Описание модели')
@@ -25,6 +28,9 @@ class EduModel(models.Model):
 
 
 class Lesson(models.Model):
+    """
+    Урок обучения.
+    """
     title = models.CharField(max_length=150, verbose_name="название")
     content = models.TextField(verbose_name="описание")
     url = models.URLField(verbose_name="ссылка на урок", **NULLABLE)
