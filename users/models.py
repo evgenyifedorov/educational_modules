@@ -7,6 +7,9 @@ NULLABLE = {"blank": True, "null": True}
 
 
 class User(AbstractUser):
+    """
+    User model with additional fields for phone number and course.
+    """
     username = None
     email = models.EmailField(unique=True, verbose_name='email')
     phone = models.CharField(max_length=30, verbose_name="телефон", **NULLABLE)
