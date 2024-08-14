@@ -4,19 +4,17 @@ from rest_framework import status
 from users.models import User
 
 
-
 class UserTestCase(APITestCase):
     """
     Test User Model and API views
     """
 
     def setUp(self):
-        self.user = User.objects.create(
-            id=4,
-            email='test@example.com',
-            password='testpassword',
-        )
-        self.client.force_authenticate(user=self.user)
+        self.user = User.objects.create(email="test@example.com", is_active=True)
+        self.user.set_password("testpassword")
+
+        self.user.save()
+        # self.client.force_authenticate(user=self.user)
 
     def test_user_create(self):
         """
@@ -36,8 +34,8 @@ class UserTestCase(APITestCase):
         response = self.client.get(url)
         data = response.json()
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(data['email'], self.user.email)
-        self.assertEqual(data['password'], self.user.password)
+        self.assertEqual(data["email"], self.user.email)
+        self.assertEqual(data["password"], self.user.password)
 
     def test_get_list_of_users(self):
         """
@@ -71,8 +69,6 @@ class UserTestCase(APITestCase):
         Test obtaining a token for a user.
         """
         url = reverse("users:token_obtain_pair")
-        data = {"id":4,"email": 'test1@bk.ru', 'password': 1234}
-        self.client.force_authenticate(user=self.user)
+        data = {"email": "test@example.com", "password": "testpassword"}
         response = self.client.post(url, data)
-        print(response.json())
-        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)

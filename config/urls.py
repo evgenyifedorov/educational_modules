@@ -15,13 +15,15 @@ schema_view = get_schema_view(
         license=openapi.License(name="BSD License"),
     ),
     public=True,
-    permission_classes=[permissions.AllowAny,],
+    permission_classes=[
+        permissions.AllowAny,
+    ],
 )
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("users/", include("users.urls",  namespace="users")),
-    path("", include("educmodels.urls",  namespace="educmodels")),
+    path("users/", include("users.urls", namespace="users")),
+    path("", include("educmodels.urls", namespace="educmodels")),
     path(
         "swagger/",
         schema_view.with_ui("swagger", cache_timeout=0),
