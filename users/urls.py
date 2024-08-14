@@ -10,10 +10,17 @@ from users.views import UserViewSet
 app_name = UsersConfig.name
 
 router = DefaultRouter()
-router.register('users', UserViewSet, basename='users')
+router.register("users", UserViewSet, basename="users")
 
 urlpatterns = [
-                  path("api/token/", TokenObtainPairView.as_view(permission_classes=[AllowAny]), name="token_obtain_pair"),
-                  path("api/token/refresh/", TokenRefreshView.as_view(permission_classes=[AllowAny]), name="token_refresh"),
-              ] + router.urls
-
+    path(
+        "api/token/",
+        TokenObtainPairView.as_view(permission_classes=[AllowAny]),
+        name="token_obtain_pair",
+    ),
+    path(
+        "api/token/refresh/",
+        TokenRefreshView.as_view(permission_classes=[AllowAny]),
+        name="token_refresh",
+    ),
+] + router.urls
