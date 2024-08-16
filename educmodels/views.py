@@ -25,6 +25,9 @@ class EduModelViewSet(viewsets.ModelViewSet):
     pagination_class = EduModelPagination
 
     def perform_create(self, serializer):
+        """
+        Perform creation of EduModel object.
+        """
         course = serializer.save()
         course.owner = self.request.user
         course.save()
